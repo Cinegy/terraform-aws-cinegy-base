@@ -8,28 +8,33 @@ variable "aws_region" {
 }
 
 variable "app_name" {
-  description = "Name to used to label application deployment, for example 'central' or 'air'."
+  description = "Name to used to label application deployment, for example 'playout' or 'customer-x'."
 }
 
 # Module specific variables
 variable "cidr_block" {
   description = "IP range in CIDR format for VPC usage"
+  default = "10.120.0.0/16"
 }
 
 variable "public_a_subnet_cidr_block" {
   description = "IP range in CIDR format for subnet usage"
+  default = "10.120.1.0/24"
 }
 
 variable "public_b_subnet_cidr_block" {
   description = "IP range in CIDR format for subnet usage"
+  default = "10.120.2.0/24"
 }
 
 variable "private_a_subnet_cidr_block" {
   description = "IP range in CIDR format for subnet usage"
+  default = "10.120.101.0/24"
 }
 
 variable "private_b_subnet_cidr_block" {
   description = "IP range in CIDR format for subnet usage"
+  default = "10.120.102.0/24"
 }
 
 variable "secondary_az_enabled" {
