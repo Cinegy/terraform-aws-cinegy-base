@@ -35,13 +35,3 @@ output "remote_access_udp_6000_6100" {
 output "open_internal_access_security_group" {
   value = aws_security_group.open_internal.id
 }
-
-/*
-output "logging_iam_arn" {
-  value = "${aws_iam_role.iam_for_logging.arn}"
-}
-
-
-output "lambda_iam_policy_logging_arn" {
-  value = "${aws_iam_policy.iam_for_logging.arn}"
-}*/
