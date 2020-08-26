@@ -1,3 +1,8 @@
+variable "domain_name" {
+  description = "Active Directory Domain Name"
+  default     = "AD"
+}
+
 variable "directory_type" {
   description = "Directory type to create - can be SimpleAD or MicrosoftAD (default SimpleAD)"
   default     = "SimpleAD"  
