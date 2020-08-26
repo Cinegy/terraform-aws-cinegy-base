@@ -29,6 +29,9 @@ variable "secondary_az_enabled" {
   default = false
 }
 
+variable "aws_secrets_privatekey_arn" {
+  description = "ARN representing private PEM key secret stored within AWS Secrets Manager"
+}
 
 /*
 variable "cinegy_agent_default_manifest_path" {

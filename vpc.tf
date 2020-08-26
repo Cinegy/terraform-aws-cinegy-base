@@ -383,7 +383,6 @@ resource "aws_security_group" "open_internal" {
   }
 }
 
-/*
 # Get PEM details from AWS secrets and create AWS public key registration for use by any VM instances
 data "aws_secretsmanager_secret" "privatekey" {
   arn = var.aws_secrets_privatekey_arn
@@ -401,5 +400,3 @@ resource "aws_key_pair" "terraform_key" {
   key_name   = "terraform-key-${var.app_name}-${var.environment_name}"
   public_key = data.tls_public_key.terraform_key.public_key_openssh
 }
-
-*/
