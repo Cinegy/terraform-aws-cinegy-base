@@ -64,11 +64,6 @@ variable "create_external_dns_reference" {
   default     = false
 }
 
-variable "customer_tag" {
-  description = "Tag to identify a resource as associated to a specific customer"
-  default = null
-}
-
 variable "user_data_script_extension" {
   description = "Extended element to attach to core user data script. Default installs Cinegy Agent with base elements and renames host to match metadata name tag."
   default     = <<EOF
