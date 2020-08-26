@@ -1,8 +1,15 @@
-provider "aws" {
-  region  = var.aws_region
-  version = "~> 2.47"
-}
+terraform {
+  required_providers {
 
-provider "tls" {
-  version = "~> 2.2"
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 2.7.0"
+    }
+
+    tls = {
+      source  = "hashicorp/tls"
+      version = ">= 2.2"
+    }
+
+  }
 }
