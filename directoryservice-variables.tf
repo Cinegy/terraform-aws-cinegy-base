@@ -1,6 +1,6 @@
 variable "domain_name" {
-  description = "Active Directory Domain Name"
-  default     = "AD"
+  description = "Active Directory Domain Name - not recommended to keep default, just provided for reference"
+  default     = "ad.cinegy.local"
 }
 
 variable "directory_type" {
