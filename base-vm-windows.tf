@@ -114,6 +114,7 @@ resource "aws_instance" "vm" {
   }
 }
 
+/*
 resource "aws_route53_record" "vm" {
   count   = var.create_external_dns_reference == true ? 1 : 0
   zone_id = var.shared_route53_zone_id
@@ -122,4 +123,4 @@ resource "aws_route53_record" "vm" {
   ttl     = "60"
   records = [aws_instance.vm.public_ip]
 }
-
+*/
