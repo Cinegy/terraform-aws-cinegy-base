@@ -22,8 +22,8 @@ resource "aws_directory_service_directory" "ad" {
   }
 }
 
-resource "aws_ssm_document" "directory_service_default_doc" {
-  name          = "directory_service_default_docs-${var.environment_name}"
+resource "aws_ssm_document" "ad_join_doc" {
+  name          = "ad_join_${var.app_name}-${var.environment_name}"
   document_type = "Command"
 
   content = <<DOC
