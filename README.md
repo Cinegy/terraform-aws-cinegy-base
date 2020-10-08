@@ -1,4 +1,4 @@
-# Cinegy Experimental Terraform Module
+# Cinegy Base Terraform Module
 
 ## Purpose
 
