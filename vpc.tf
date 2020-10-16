@@ -354,6 +354,90 @@ resource "aws_security_group" "remote_access_udp_6000_6100" {
   }
 }
 
+# A default security group to access instances over TCP 5521-5600 (for direct access to Air Engine REST API)
+resource "aws_security_group" "remote_access_tcp_5521_5600" {
+  name        = "Air Engine REST TCP"
+  description = "Allows TCP 5521-5600 access from anywhere, for direct Air Engine REST access"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 5521
+    to_port     = 5600
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Env       = var.environment_name
+    App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Terraform = true
+  }
+}
+
+# A default security group to access instances over TCP 7501 (for direct access to Air Control REST API)
+resource "aws_security_group" "remote_access_tcp_7501" {
+  name        = "Air Control REST TCP"
+  description = "Allows TCP 7501 access from anywhere, for direct Air Control REST access"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 7501
+    to_port     = 7501
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Env       = var.environment_name
+    App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Terraform = true
+  }
+}
+
+# A default security group to access instances over TCP 80 HTTP
+resource "aws_security_group" "remote_access_tcp_80" {
+  name        = "HTTP"
+  description = "Allows TCP 80 access from anywhere, for standard HTTP access"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Env       = var.environment_name
+    App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Terraform = true
+  }
+}
+
+# A default security group to access instances over TCP 443 HTTPS
+resource "aws_security_group" "remote_access_tcp_443" {
+  name        = "HTTPS"
+  description = "Allows TCP 443 access from anywhere, for standard HTTPS access"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Env       = var.environment_name
+    App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Terraform = true
+  }
+}
+
 # A default security group with all internal ports open
 resource "aws_security_group" "open_internal" {
   name        = "Instance VPC internal open access"
