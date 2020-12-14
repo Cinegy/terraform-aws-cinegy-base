@@ -278,6 +278,14 @@ resource "aws_security_group" "remote_access" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  # NICE DCV access from anywhere (has no effect within private subnet deployments, will just be VPC local)
+  ingress {
+    from_port   = 8443
+    to_port     = 8443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   # WINRM access from the VPC
   ingress {
     from_port   = 5985
