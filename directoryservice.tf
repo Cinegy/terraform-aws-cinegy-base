@@ -4,6 +4,7 @@ resource "aws_directory_service_directory" "ad" {
   password = var.domain_admin_password
   edition  = var.directory_edition
   type     = var.directory_type
+  count    = var.ad_enabled ? 1 : 0
 
   vpc_settings {
     vpc_id = aws_vpc.main.id
@@ -25,6 +26,7 @@ resource "aws_directory_service_directory" "ad" {
 resource "aws_ssm_document" "ad_join_doc" {
   name          = "ad_join_${var.app_name}-${var.environment_name}"
   document_type = "Command"
+  count    = var.ad_enabled ? 1 : 0
 
   content = <<DOC
     {
@@ -33,11 +35,11 @@ resource "aws_ssm_document" "ad_join_doc" {
             "runtimeConfig": {
             "aws:domainJoin": {
                 "properties": {
-                    "directoryId": "${aws_directory_service_directory.ad.id}",
+                    "directoryId": "${aws_directory_service_directory.ad.index.id}",
                     "directoryName": "${var.domain_name}",
                     "dnsIpAddresses": [
-                        "${sort(aws_directory_service_directory.ad.dns_ip_addresses).0}",
-                        "${sort(aws_directory_service_directory.ad.dns_ip_addresses).1}"                    
+                        "${sort(aws_directory_service_directory.ad.index.dns_ip_addresses).0}",
+                        "${sort(aws_directory_service_directory.ad.index.dns_ip_addresses).1}"                    
                     ]
                 }
             }
