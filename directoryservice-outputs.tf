@@ -1,8 +1,8 @@
-output "directory_service_id" {
-  value = aws_directory_service_directory.ad.id
+output "directory_service" {
+  value = aws_directory_service_directory.ad
 }
 
-output "ad_join_doc_name" {
-  value = aws_ssm_document.ad_join_doc.name
+output "ad_join_doc" {
+  value = aws_ssm_document.ad_join_doc
 }
 

@@ -35,11 +35,11 @@ resource "aws_ssm_document" "ad_join_doc" {
             "runtimeConfig": {
             "aws:domainJoin": {
                 "properties": {
-                    "directoryId": "${aws_directory_service_directory.ad.index.id}",
+                    "directoryId": "${aws_directory_service_directory.ad[index].id}",
                     "directoryName": "${var.domain_name}",
                     "dnsIpAddresses": [
-                        "${sort(aws_directory_service_directory.ad.index.dns_ip_addresses).0}",
-                        "${sort(aws_directory_service_directory.ad.index.dns_ip_addresses).1}"                    
+                        "${sort(aws_directory_service_directory.ad[index].dns_ip_addresses).0}",
+                        "${sort(aws_directory_service_directory.ad[index].dns_ip_addresses).1}"                    
                     ]
                 }
             }
