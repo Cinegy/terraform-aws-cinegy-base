@@ -118,7 +118,7 @@ data "aws_vpc_endpoint_service" "s3" {
 }
 
 resource "aws_vpc_endpoint" "s3_endpoint_gateway" {
-  vpc_id       = aws_vpc.main_vpc.id
+  vpc_id       = aws_vpc.main.id
   service_name = data.aws_vpc_endpoint_service.s3.service_name
 
     tags = {
