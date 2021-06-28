@@ -111,11 +111,40 @@ resource "aws_nat_gateway" "nat_1b" {
   }
 }
 
+# Create a S3 VPC endpoint
+data "aws_vpc_endpoint_service" "s3" {
+  service      = "s3"
+  service_type = "Gateway"
+}
+
+resource "aws_vpc_endpoint" "s3_endpoint_gateway" {
+  vpc_id       = aws_vpc.main_vpc.id
+  service_name = data.aws_vpc_endpoint_service.s3.service_name
+
+    tags = {
+    App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Env       = var.environment_name
+    Terraform = true
+  }
+
+#This stops any custom tags applied outside of Terraform from getting removed
+  lifecycle {
+    ignore_changes = [tags]
+  }
+}
+
 # Grant the VPC internet access on its main route table
 resource "aws_route" "internet_access" {
   route_table_id         = aws_vpc.main.main_route_table_id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.gw.id
+}
+
+# add S3 vpc endpoint route 
+resource "aws_vpc_endpoint_route_table_association" "public_subnets_to_s3" {
+  route_table_id = aws_vpc.main.main_route_table_id
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
 }
 
 # allow internet access to private subnets in AZ-A through nat #1a
@@ -146,6 +175,13 @@ resource "aws_route_table_association" "private_a_subnet_to_nat_gw_1a" {
   route_table_id = aws_route_table.nat_gw_1a.id
   subnet_id      = aws_subnet.private_a.id
 }
+
+# add S3 vpc endpoint route
+resource "aws_vpc_endpoint_route_table_association" "private_a_subnet_to_s3" {
+  route_table_id = aws_route_table.nat_gw_1a.id
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+}
+
 
 # allow internet access to private subnets in AZ-B through nat #1b
 resource "aws_route_table" "nat_gw_1b" {
@@ -178,6 +214,14 @@ resource "aws_route_table_association" "private_b_subnet_to_nat_gw_1b" {
   route_table_id = aws_route_table.nat_gw_1b[count.index].id
   subnet_id      = aws_subnet.private_b.id
 }
+
+# add S3 vpc endpoint route
+resource "aws_vpc_endpoint_route_table_association" "private_b_subnet_to_s3" {
+  count = var.secondary_az_enabled ? 1 : 0
+  route_table_id = aws_route_table.nat_gw_1b[count.index].id
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+}
+
 
 # Availability Zone A - Publically accessible
 resource "aws_subnet" "public_a" {
