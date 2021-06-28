@@ -144,7 +144,7 @@ resource "aws_route" "internet_access" {
 # add S3 vpc endpoint route 
 resource "aws_vpc_endpoint_route_table_association" "public_subnets_to_s3" {
   route_table_id = aws_vpc.main.main_route_table_id
-  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+  vpc_endpoint_id = aws_vpc_endpoint.s3_endpoint_gateway.id
 }
 
 # allow internet access to private subnets in AZ-A through nat #1a
@@ -179,7 +179,7 @@ resource "aws_route_table_association" "private_a_subnet_to_nat_gw_1a" {
 # add S3 vpc endpoint route
 resource "aws_vpc_endpoint_route_table_association" "private_a_subnet_to_s3" {
   route_table_id = aws_route_table.nat_gw_1a.id
-  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+  vpc_endpoint_id = aws_vpc_endpoint.s3_endpoint_gateway.id
 }
 
 
@@ -219,7 +219,7 @@ resource "aws_route_table_association" "private_b_subnet_to_nat_gw_1b" {
 resource "aws_vpc_endpoint_route_table_association" "private_b_subnet_to_s3" {
   count = var.secondary_az_enabled ? 1 : 0
   route_table_id = aws_route_table.nat_gw_1b[count.index].id
-  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+  vpc_endpoint_id = aws_vpc_endpoint.s3_endpoint_gateway.id
 }
 
 
