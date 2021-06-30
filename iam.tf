@@ -167,7 +167,21 @@ data "aws_iam_policy_document" "default_ec2_policy" {
       "dynamodb:GetItem",
       "dynamodb:PutItem",
       "dynamodb:DeleteItem",
-      "dynamodb:DescribeTable"
+      "dynamodb:DescribeTable",
+      "ecs:CreateCluster",
+      "ecs:DeregisterContainerInstance",
+      "ecs:DiscoverPollEndpoint",
+      "ecs:Poll",
+      "ecs:RegisterContainerInstance",
+      "ecs:StartTelemetrySession",
+      "ecs:UpdateContainerInstancesState",
+      "ecs:Submit*",
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
     ]
     resources = ["*"]
   }
