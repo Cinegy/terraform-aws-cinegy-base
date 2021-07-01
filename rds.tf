@@ -27,11 +27,10 @@ resource "aws_iam_role" "rds_ad_auth" {
   force_detach_policies = true
   assume_role_policy    = data.aws_iam_policy_document.rds_assume_role.json
 
-  tags = {
-    Env       = var.environment_name
-    Name      = "${var.app_name}-${var.environment_name}-IGW"
-    CUSTOMER  = var.customer_tag
+   tags = {
     App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Env       = var.environment_name
     Terraform = true
   }
 
@@ -52,11 +51,10 @@ resource "aws_db_subnet_group" "mssql" {
   description = "The ${var.environment_name} RDS ${var.rds_instance_name_prefix} instance private subnet group."
   subnet_ids  = ["${data.aws_subnet_ids.filtered_subnets.ids}"]
 
-  tags = {
-    Env       = var.environment_name
-    Name      = "${var.app_name}-${var.environment_name}-IGW"
-    CUSTOMER  = var.customer_tag
+   tags = {
     App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Env       = var.environment_name
     Terraform = true
   }
 
@@ -79,11 +77,10 @@ resource "aws_security_group" "rds_mssql_security_group" {
     cidr_blocks = ["${data.terraform_remote_state.vpc.main_vpc_cidr}"]
   }
 
-  tags = {
-    Env       = var.environment_name
-    Name      = "${var.app_name}-${var.environment_name}-IGW"
-    CUSTOMER  = var.customer_tag
+   tags = {
     App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Env       = var.environment_name
     Terraform = true
   }
 
@@ -132,11 +129,10 @@ resource "aws_db_instance" "default_mssql" {
   skip_final_snapshot       = "${var.skip_final_snapshot}"
   final_snapshot_identifier = "${var.environment}-mssql-final-snapshot"
 
-  tags = {
-    Env       = var.environment_name
-    Name      = "${var.app_name}-${var.environment_name}-IGW"
-    CUSTOMER  = var.customer_tag
+   tags = {
     App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Env       = var.environment_name
     Terraform = true
   }
 
