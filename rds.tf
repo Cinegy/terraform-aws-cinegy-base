@@ -221,7 +221,7 @@ resource "aws_db_option_group" "sqlexpress-native-backup-restore" {
 
 locals {
   domain_id = join("",aws_directory_service_directory.ad.*.directory_service_id)
-  domain_iam_role_name = aws_iam_role.rds_ad_auth
+  domain_iam_role_name = aws_iam_role.rds_ad_auth.name
 }
 
 resource "aws_db_instance" "mssql" {
