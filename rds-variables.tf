@@ -12,7 +12,7 @@ variable "rds_subnet_az" {
 
 variable "rds_instance_class" {
   description = "Required instance class for RDS server"
-  default     = "db.t3.micro"
+  default     = "db.t3.small"
 }
 
 variable "rds_multi_az" {
