@@ -1,13 +1,13 @@
 # Module specific variables
 
-variable "aws_subnet_tier" {
+variable "rds_subnet_tier" {
   description = "Tier of subnet for deployment (Private / Public)"
   default = "Private"
 }
 
-variable "aws_subnet_az" {
-  description = "Availability Zone for deployment (A/B/...)"
-  default = "A"
+variable "rds_subnet_az" {
+  description = "Availability Zone for deployment (A/B/*)"
+  default = "*"
 }
 
 variable "rds_instance_class" {

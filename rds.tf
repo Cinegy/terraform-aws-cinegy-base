@@ -6,8 +6,8 @@ data "aws_subnet_ids" "filtered_subnets" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Tier = var.aws_subnet_tier
-    AZ   = var.aws_subnet_az
+    Tier = var.rds_subnet_tier
+    AZ   = var.rds_subnet_az
   }
 }
 
@@ -70,7 +70,6 @@ resource "aws_iam_role_policy_attachment" "rds_directory_services" {
 resource "aws_db_subnet_group" "mssql" {
   description = "The ${var.app_name}-${var.environment_name} RDS ${var.rds_instance_name_prefix} instance private subnet group."
   subnet_ids  = data.aws_subnet_ids.filtered_subnets.ids
-
 
    tags = {
     App       = var.app_name
