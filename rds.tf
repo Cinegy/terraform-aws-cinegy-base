@@ -225,7 +225,7 @@ locals {
 }
 
 resource "aws_db_instance" "mssql" {
-  identifier                = "${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
+  identifier                = lower("${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}")
   allocated_storage         = var.rds_allocated_storage
   license_model             = "license-included"
   storage_type              = "gp2"
