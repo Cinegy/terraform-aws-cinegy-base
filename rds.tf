@@ -3,7 +3,7 @@ locals {
 
 
 data "aws_subnet_ids" "filtered_subnets" {
-  vpc_id = data.terraform_remote_state.vpc.outputs.main_vpc
+  vpc_id = aws_vpc.main.id
 
   tags = {
     Tier = var.aws_subnet_tier
