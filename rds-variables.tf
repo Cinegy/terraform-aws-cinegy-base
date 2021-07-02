@@ -35,6 +35,11 @@ variable "mssql_engine" {
   default     = "sqlserver-ex"
 }
 
+variable "engine_specific_version" {
+  description = "AWS RDS string matching the MSSQL engine specific version to instance (e.g. 13.00.5216.0.v1)"
+  default     = "13.00.5850.14.v1"
+}
+
 variable "mssql_engine_family" {
   description = "AWS RDS string matching the MSSQL engine family to instance (e.g. sqlserver-ex-13.0)"
   default     = "sqlserver-ex-13.0"

@@ -229,6 +229,7 @@ resource "aws_db_instance" "mssql" {
   license_model             = "license-included"
   storage_type              = "gp2"
   engine                    = var.mssql_engine
+  engine_version            = var.engine_specific_version
   instance_class            = var.rds_instance_class
   multi_az                  = var.rds_multi_az
   username                  = var.mssql_admin_username
