@@ -135,7 +135,7 @@ data "aws_security_groups" "filtered_domain_controller_group" {
 }
 
 resource "aws_db_parameter_group" "clr_enabled" {
-  name   = "clr-enabled-parameters-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
+  name   = lower("clr-enabled-parameters-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}")
   family = var.mssql_engine_family
 
   parameter {
@@ -204,7 +204,7 @@ EOF
 # }
 
 resource "aws_db_option_group" "sqlexpress-native-backup-restore" {
-  name                     = "sqlexpress-native-backup-restore-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
+  name                     = lower("sqlexpress-native-backup-restore-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}")
   option_group_description = "DB Option Group for backup and restore on ${var.mssql_engine_family}"
   engine_name              = var.mssql_engine
   major_engine_version     = var.engine_major_version
