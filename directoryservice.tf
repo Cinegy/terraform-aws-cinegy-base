@@ -48,7 +48,6 @@ resource "aws_ssm_document" "ad_join_doc" {
     
 DOC
 
-
   tags = {
     Env = var.environment_name
     App = var.app_name
