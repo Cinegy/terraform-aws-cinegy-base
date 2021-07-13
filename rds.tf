@@ -1,6 +1,3 @@
-locals {
-}
-
 
 data "aws_subnet_ids" "filtered_subnets" {
   vpc_id = aws_vpc.main.id
@@ -143,6 +140,29 @@ resource "aws_db_parameter_group" "clr_enabled" {
   }
 }
 
+ #Create backup bucket
+locals {
+  s3_rdsbackup_bucket  = "${lower(var.app_name)}-rdsbackup-${var.environment_name}"
+}
+
+resource "aws_s3_bucket" "rdsbackup" {
+  bucket = local.s3_rdsbackup_bucket
+  acl    = "private"
+
+
+   tags = {
+    App       = var.app_name
+    CUSTOMER  = var.customer_tag
+    Env       = var.environment_name
+    Terraform = true
+  }
+
+
+#This stops any custom tags applied outside of Terraform from getting removed
+  lifecycle {
+    ignore_changes = [tags]
+  }
+}
 
 
 resource "aws_iam_role" "iam_role_sql_backup_restore" {
@@ -166,41 +186,42 @@ resource "aws_iam_role" "iam_role_sql_backup_restore" {
 EOF
 }
 
-# TODO: Bucket needs creating (there is no state bucket to abuse any more)
-# resource "aws_iam_role_policy" "name" {
-#   name   = "IAM_POLICY_SQL_BACKUP_S3_ACCESS-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
-#   role   = aws_iam_role.iam_role_sql_backup_restore.id
-#   policy = <<EOF
-# {
-#   "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Effect": "Allow",
-#             "Action": [
-#                 "s3:ListBucket",
-#                 "s3:GetBucketLocation"
-#             ],
-#             "Resource": [
-#                 "arn:aws:s3:::${var.s3_backup_bucket}"
-#             ]
-#         },
-#         {
-#             "Effect": "Allow",
-#             "Action": [
-#                 "s3:GetObject",
-#                 "s3:PutObject",
-#                 "s3:ListMultipartUploadParts",
-#                 "s3:AbortMultipartUpload"
-#             ],
-#             "Resource": [
-#                 "arn:aws:s3:::${var.s3_backup_bucket}/${var.environment_name}/sqlbackups/${var.rds_instance_name_prefix}/*"
-#             ]
-#         }
-#     ]
-# }
-# EOF
 
-# }
+# TODO: Bucket needs creating (there is no state bucket to abuse any more)
+ resource "aws_iam_role_policy" "iam_role_sql_backup_s3_access" {
+   name   = "IAM_POLICY_SQL_BACKUP_S3_ACCESS-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
+   role   = aws_iam_role.iam_role_sql_backup_restore.id
+   policy = <<EOF
+ {
+   "Version": "2012-10-17",
+    "Statement": [
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "s3:ListBucket",
+                 "s3:GetBucketLocation"
+             ],
+             "Resource": [
+                 "arn:aws:s3:::local.s3_rdsbackup_bucket"
+             ]
+         },
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "s3:GetObject",
+                 "s3:PutObject",
+                 "s3:ListMultipartUploadParts",
+                 "s3:AbortMultipartUpload"
+             ],
+             "Resource": [
+                 "arn:aws:s3:::local.s3_rdsbackup_bucket/${var.environment_name}/sqlbackups/${var.rds_instance_name_prefix}/*"
+            ]
+         }
+      ]
+ } 
+ EOF
+
+ }
 
 resource "aws_db_option_group" "sqlexpress-native-backup-restore" {
   name                     = lower("sqlexpress-native-backup-restore-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}")
