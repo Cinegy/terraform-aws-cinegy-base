@@ -186,8 +186,7 @@ resource "aws_iam_role" "iam_role_sql_backup_restore" {
 EOF
 }
 
-
-# TODO: Bucket needs creating (there is no state bucket to abuse any more)
+#Create IAM policy to allow access to bucket
  resource "aws_iam_role_policy" "iam_role_sql_backup_s3_access" {
    name   = "IAM_POLICY_SQL_BACKUP_S3_ACCESS-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
    role   = aws_iam_role.iam_role_sql_backup_restore.id
@@ -202,7 +201,7 @@ EOF
                  "s3:GetBucketLocation"
              ],
              "Resource": [
-                 "arn:aws:s3:::local.s3_rdsbackup_bucket"
+                 "arn:aws:s3:::${local.s3_rdsbackup_bucket}"
              ]
          },
          {
@@ -214,7 +213,7 @@ EOF
                  "s3:AbortMultipartUpload"
              ],
              "Resource": [
-                 "arn:aws:s3:::local.s3_rdsbackup_bucket/${var.environment_name}/sqlbackups/${var.rds_instance_name_prefix}/*"
+                 "arn:aws:s3:::${local.s3_rdsbackup_bucket}/${var.environment_name}/sqlbackups/${var.rds_instance_name_prefix}/*"
             ]
          }
       ]
