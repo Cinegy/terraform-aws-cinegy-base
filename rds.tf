@@ -201,7 +201,7 @@ EOF
                  "s3:GetBucketLocation"
              ],
              "Resource": [
-                 "arn:aws:s3:::${local.s3_rdsbackup_bucket}"
+                 "arn:aws:s3:::*"
              ]
          },
          {
@@ -213,7 +213,7 @@ EOF
                  "s3:AbortMultipartUpload"
              ],
              "Resource": [
-                 "arn:aws:s3:::${local.s3_rdsbackup_bucket}/*"
+                 "arn:aws:s3:::*/*"
             ]
          }
       ]
