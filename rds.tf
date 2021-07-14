@@ -190,7 +190,7 @@ EOF
  resource "aws_iam_role_policy" "iam_role_sql_backup_s3_access" {
    name   = "IAM_POLICY_SQL_BACKUP_S3_ACCESS-${local.s3_rdsbackup_bucket}"
    role   = aws_iam_role.iam_role_sql_backup_restore.id
-   policy = <<EOF
+   policy = jsonencode(
  {
    "Version": "2012-10-17",
     "Statement": [
@@ -218,9 +218,9 @@ EOF
       }
     ]
  } 
- EOF
-
+   )
  }
+ 
 
 resource "aws_db_option_group" "sqlexpress-native-backup-restore" {
   name                     = lower("sqlexpress-native-backup-restore-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}")
