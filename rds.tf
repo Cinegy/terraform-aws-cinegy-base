@@ -201,7 +201,7 @@ EOF
                  "s3:GetBucketLocation"
              ],
              "Resource": [
-                 "arn:aws:s3:::${aws_s3_bucket.rdsbackup.id}"
+                 "arn:aws:s3:::${local.s3_rdsbackup_bucket}"
              ]
          },
          {
@@ -213,7 +213,7 @@ EOF
                  "s3:AbortMultipartUpload"
              ],
              "Resource": [
-                 "arn:aws:s3:::${aws_s3_bucket.rdsbackup.id}/${var.environment_name}/sqlbackups/${var.rds_instance_name_prefix}/*"
+                 "arn:aws:s3:::${local.s3_rdsbackup_bucket}/${var.environment_name}/sqlbackups/${var.rds_instance_name_prefix}/*"
             ]
          }
       ]
