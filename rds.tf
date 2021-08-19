@@ -10,7 +10,7 @@ data "aws_subnet_ids" "filtered_subnets" {
 
 # Get general account password secret for SA password
 data "aws_secretsmanager_secret" "password" {
-  arn = var.aws_secrets_generic_account_password_arn
+  arn = var.rds_sysadmin_user_password_secret_arn
 }
 
 data "aws_secretsmanager_secret_version" "password" {

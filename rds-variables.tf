@@ -63,3 +63,8 @@ variable "domain_join" {
   description = "Join RDS instance to AD (default false)"
   default = false
 }
+
+variable "rds_sysadmin_user_password_secret_arn" {
+    description = "AWS Secrets ARN pointing to a password for use as the RDS password"  
+    default = ""
+}

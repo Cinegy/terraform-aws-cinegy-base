@@ -15,8 +15,3 @@ variable "customer_tag" {
   description = "Tag to identify a resource as associated to a specific customer"
   default = null
 }
-
-variable "aws_secrets_generic_account_password_arn" {
-  description = "ARN representing general password secret stored within AWS Secrets Manager"
-  default = ""
-}
