@@ -261,8 +261,8 @@ resource "aws_db_instance" "mssql" {
   final_snapshot_identifier = "${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}-final-snapshot"
   parameter_group_name      = aws_db_parameter_group.clr_enabled.name
   option_group_name         = aws_db_option_group.sqlexpress-native-backup-restore.name
-  domain                    = local.domain_id
-  domain_iam_role_name      = local.domain_iam_role_name
+  domain                    = var.domain_join ? local.domain_id : ""
+  domain_iam_role_name      = var.domain_join ? local.domain_iam_role_name : ""
 
   tags = {
     Env       = var.environment_name
