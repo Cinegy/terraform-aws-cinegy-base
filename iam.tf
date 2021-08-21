@@ -1,25 +1,23 @@
+
+#Policy document defining service principles for lambda
+data "aws_iam_policy_document" "lambda_assume_role_policy" {
+  statement {
+    sid = "terraform"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["lambda.amazonaws.com"]
+    }
+  }
+}
+
 #create some core base IAM roles for lambda and other services to re-use for logging
 resource "aws_iam_role" "iam_for_logging" {
   name        = "CloudWatch-Logging-${var.app_name}-${upper(var.environment_name)}"
   description = "Base role for accessing resources needed to permit logging to CloudWatch"
   path        = "/service-role/"
 
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "Service": [ "lambda.amazonaws.com", "edgelambda.amazonaws.com" ]
-      },
-      "Effect": "Allow",
-      "Sid": "Terraform"
-    }
-  ]
-}
-EOF
-
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume_role_policy.json
 
   tags = {
     App = var.app_name
