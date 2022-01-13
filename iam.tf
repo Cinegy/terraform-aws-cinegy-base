@@ -111,7 +111,7 @@ EOF
 
 }
 
-#EC2 roles & policies used during launch, to permit joining AD and querying self-hosted metadata
+#EC2 roles & policies used to permit default actions, or admin level
 resource "aws_iam_role" "iam_role_default_ec2_instance" {
   name = "IAM_ROLE_DEFAULT_EC2_INSTANCE-${var.app_name}-${var.environment_name}"
   path = "/"
@@ -189,4 +189,53 @@ resource "aws_iam_role_policy" "policy_allow_all_ssm" {
   name = "IAM_POLICY_ALLOW_ALL_SSM-${var.app_name}-${var.environment_name}"
   role = aws_iam_role.iam_role_default_ec2_instance.id
   policy = data.aws_iam_policy_document.default_ec2_policy.json
+}
+
+resource "aws_iam_role" "iam_role_admin_ec2_instance" {
+  name = "IAM_ROLE_ADMIN_EC2_INSTANCE-${var.app_name}-${var.environment_name}"
+  path = "/"
+
+  assume_role_policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": "sts:AssumeRole",
+            "Principal": {
+               "Service": "ec2.amazonaws.com"
+            },
+            "Effect": "Allow",
+            "Sid": ""
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "instance_profile_admin_ec2_instance" {
+  name = "INSTANCE_PROFILE_ADMIN_EC2-${var.app_name}-${var.environment_name}"
+  role = aws_iam_role.iam_role_admin_ec2_instance.name
+}
+
+data "aws_iam_policy_document" "admin_ec2_policy" {
+  statement {
+    actions = [
+      "ssm:*",
+      "ec2messages:*",
+      "ds:*",
+      "ec2:*",
+      "s3:*",     
+      "dynamodb:*",
+      "ecs:*",
+      "ecr:*",
+      "logs:*"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "policy_admin" {
+  name = "IAM_POLICY_ADMIN_ALL-${var.app_name}-${var.environment_name}"
+  role = aws_iam_role.iam_role_admin_ec2_instance.id
+  policy = data.aws_iam_policy_document.admin_ec2_policy.json
 }
