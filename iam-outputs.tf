@@ -2,6 +2,10 @@ output "instance_profile_default_ec2_instance_name" {
   value = aws_iam_instance_profile.instance_profile_default_ec2_instance.name
 }
 
+output "instance_profile_admin_ec2_instance_name" {
+  value = aws_iam_instance_profile.instance_profile_admin_ec2_instance.name
+}
+
 output "rds_directoryservice_access_role_name" {
   value = aws_iam_role.rds_directoryservice_access_role.name
 }
