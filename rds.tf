@@ -1,7 +1,9 @@
 
-data "aws_subnet_ids" "filtered_subnets" {
-  vpc_id = aws_vpc.main.id
-
+data "aws_subnets" "filtered_subnets" {
+  filter {
+    name = "vpc_id"
+    values = [aws_vpc.main.id]
+  }
   tags = {
     Tier = var.rds_subnet_tier
     AZ   = var.rds_subnet_az
