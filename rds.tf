@@ -1,7 +1,7 @@
 
 data "aws_subnets" "filtered_subnets" {
   filter {
-    name = "vpc_id"
+    name = "vpc-id"
     values = [aws_vpc.main.id]
   }
   tags = {
