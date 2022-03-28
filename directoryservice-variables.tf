@@ -14,7 +14,7 @@ variable "directory_type" {
 }
 
 variable "directory_edition" {
-  description = "Directory edition to instance, applies only to MS AD instances (default null, creates a cheaper and quicker simple AD)"
+  description = "Directory edition to instance, applies only to MS AD instances (default null, creates a cheaper and quicker simple AD, can be 'Standard' or 'Enterprise' for MS)"
   default     = null
 }
 
