@@ -3,7 +3,7 @@ terraform {
 
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 3.44.0, < 4.0.0"
+      version = ">= 4.8.0, < 5.0.0"
     }
 
     tls = {
