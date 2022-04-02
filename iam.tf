@@ -228,7 +228,8 @@ data "aws_iam_policy_document" "admin_ec2_policy" {
       "dynamodb:*",
       "ecs:*",
       "ecr:*",
-      "logs:*"
+      "logs:*",
+      "secretsmanager:*"
     ]
     resources = ["*"]
   }
