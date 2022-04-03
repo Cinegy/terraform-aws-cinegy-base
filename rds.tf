@@ -149,8 +149,6 @@ locals {
 
 resource "aws_s3_bucket" "rdsbackup" {
   bucket = local.s3_rdsbackup_bucket
-  acl    = "private"
-
 
    tags = {
     App       = var.app_name
@@ -159,13 +157,16 @@ resource "aws_s3_bucket" "rdsbackup" {
     Terraform = true
   }
 
-
-#This stops any custom tags applied outside of Terraform from getting removed
+  #This stops any custom tags applied outside of Terraform from getting removed
   lifecycle {
     ignore_changes = [tags]
   }
 }
 
+resource "aws_s3_bucket_acl" "rdsbackup_acl" {
+  bucket = aws_s3_bucket.rdsbackup.id
+  acl    = "private"
+}
 
 resource "aws_iam_role" "iam_role_sql_backup_restore" {
   name        = "IAM_ROLE_SQL_BACKUP_RESTORE-${var.rds_instance_name_prefix}-${var.app_name}-${var.environment_name}"
