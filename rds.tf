@@ -67,7 +67,7 @@ resource "aws_iam_role_policy_attachment" "rds_directory_services" {
 
 
 resource "aws_db_subnet_group" "mssql" {
-  description = "The ${var.app_name}-${var.environment_name} RDS ${var.rds_instance_name_prefix} instance private subnet group."
+  description = "The ${var.app_name}-${var.environment_name} RDS ${var.rds_instance_name_prefix} instance ${var.rds_subnet_tier} subnet group."
   subnet_ids  = data.aws_subnets.filtered_subnets.ids
 
    tags = {
@@ -257,6 +257,7 @@ resource "aws_db_instance" "mssql" {
   multi_az                  = var.rds_multi_az
   username                  = var.mssql_admin_username
   password                  = data.aws_secretsmanager_secret_version.password.secret_string
+  publicly_accessible       = var.rds_public_accessible
   vpc_security_group_ids    = [aws_security_group.rds_mssql_security_group.id ]
   db_subnet_group_name      = aws_db_subnet_group.mssql.id
   backup_retention_period   = 3

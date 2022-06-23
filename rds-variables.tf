@@ -68,3 +68,8 @@ variable "rds_sysadmin_user_password_secret_arn" {
     description = "AWS Secrets ARN pointing to a password for use as the RDS password"  
     default = ""
 }
+
+variable "rds_public_accessible" {
+  description = "Specifies if the RDS instance should be marked to allow public access"
+  default     = false
+}
