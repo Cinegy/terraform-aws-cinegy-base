@@ -37,7 +37,7 @@ variable "mssql_engine" {
 
 variable "engine_specific_version" {
   description = "AWS RDS string matching the MSSQL engine specific version to instance (e.g. 13.00.5216.0.v1)"
-  default     = "13.00.5850.14.v1"
+  default     = "13.00.6300.2.v1"
 }
 
 variable "mssql_engine_family" {
